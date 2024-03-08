@@ -10,22 +10,7 @@ const app = express();
 const URL_CONNECT = process.env.URL_CONNECT;
 const PORT = process.env.PORT;
 
-const allowCrossDomain = (req, res, next) => {
-  res.header(`Access-Control-Allow-Origin`, `*`);
-  res.header(`Access-Control-Allow-Methods`, `GET,PUT,POST,DELETE`);
-  res.header(`Access-Control-Allow-Headers`, `Content-Type`);
-  next();
-};
-
-app.configure(() => {
-  app.use(express.cookieParser());
-  app.use(express.session({ secret: `cool beans` }));
-  app.use(express.methodOverride());
-  // CORS middleware
-  app.use(allowCrossDomain);
-  app.use(app.router);
-  app.use(express.static(`public`));
-});
+app.use(cors());
 
 app.use(express.json());
 
@@ -36,8 +21,6 @@ mongoose
   .catch((err) => console.log(err));
 
 app.get("/", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
   UserModel.find()
 
     .then((users) => res.json(users))
