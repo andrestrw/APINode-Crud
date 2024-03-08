@@ -12,7 +12,7 @@ const PORT = process.env.PORT;
 
 app.use(
   cors({
-    origin: "localhost:5173/",
+    origin: "*",
   })
 );
 
