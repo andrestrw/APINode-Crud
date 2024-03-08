@@ -25,7 +25,10 @@ mongoose
   .catch((err) => console.log(err));
 
 app.get("/", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
   UserModel.find()
+
     .then((users) => res.json(users))
     .catch((err) => res.json(err));
 });
