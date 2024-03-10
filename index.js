@@ -11,7 +11,8 @@ const URL_CONNECT = process.env.URL_CONNECT;
 const PORT = process.env.PORT;
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  // origin: "http://localhost:5173",
+  origin: "https://jesus.andres.v2.proyectosdwa.es/",
   methods: ["OPTIONS", "GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
