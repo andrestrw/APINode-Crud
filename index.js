@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import UserModel from "./user.js";
 import express from "express";
 
-import cors from "cors";
 import "dotenv/config";
 
 // -----
@@ -10,24 +9,9 @@ const app = express();
 const URL_CONNECT = process.env.URL_CONNECT;
 const PORT = process.env.PORT;
 
-const corsOptions = {
-  // origin: "http://localhost:5173",
-  origin: "https://jesus.andres.v2.proyectosdwa.es",
-  methods: ["OPTIONS", "GET", "POST", "PUT", "DELETE"],
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
-
 app.use(express.json());
 
-// app.options("*", cors(corsOptions));
-
-// app.all("/*", function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-//   next();
-// });
+app.use(express.static("dist"));
 
 mongoose
   .connect(URL_CONNECT)
@@ -35,26 +19,26 @@ mongoose
   .then((db) => console.log("DB is connected"))
   .catch((err) => console.log(err));
 
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   UserModel.find()
 
     .then((users) => res.json(users))
     .catch((err) => res.json(err));
 });
 
-app.get("/get/:id", (req, res) => {
+app.get("/api/get/:id", (req, res) => {
   const id = req.params.id;
   UserModel.findById({ _id: id })
     .then((post) => res.json(post))
     .catch((err) => console.log(err));
 });
 
-app.post("/create", (req, res) => {
+app.post("/api/create", (req, res) => {
   UserModel.create(req.body)
     .then((user) => res.json(user))
     .catch((err) => res.json(err));
 });
-app.put("/update/:id", (req, res) => {
+app.put("/api/update/:id", (req, res) => {
   const id = req.params.id;
   UserModel.findByIdAndUpdate(
     { _id: id },
@@ -67,7 +51,7 @@ app.put("/update/:id", (req, res) => {
     .then((user) => res.json(user))
     .catch((err) => res.json(err));
 });
-app.delete("/deleteuser/:id", (req, res) => {
+app.delete("/api/deleteuser/:id", (req, res) => {
   const id = req.params.id;
   UserModel.findByIdAndDelete({ _id: id })
     .then((response) => res.json(response))
