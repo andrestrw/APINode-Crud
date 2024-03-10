@@ -12,7 +12,7 @@ const PORT = process.env.PORT;
 
 const corsOptions = {
   // origin: "http://localhost:5173",
-  origin: "https://jesus.andres.v2.proyectosdwa.es/dashboard",
+  origin: "*",
   methods: ["OPTIONS", "GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
@@ -20,6 +20,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.json());
+
+app.options("*", cors(corsOptions));
 
 // app.all("/*", function (req, res, next) {
 //   res.header("Access-Control-Allow-Origin", "*");
